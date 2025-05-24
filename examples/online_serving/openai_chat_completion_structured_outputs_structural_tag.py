@@ -7,11 +7,14 @@ from openai import OpenAI
 # to enforce the format of a tool call response, but it could be used for
 # any structured output within a subset of the response.
 
+openai_api_key = "EMPTY"
+openai_api_base = "http://localhost:8000/v1"
+
 
 def main():
     client = OpenAI(
-        base_url="http://localhost:8000/v1",
-        api_key="-",
+        base_url=openai_api_base,
+        api_key=openai_api_key,
     )
 
     messages = [{
@@ -59,7 +62,7 @@ and San Francisco?
     }]
 
     response = client.chat.completions.create(
-        model="meta-llama/Llama-3.1-8B-Instruct",
+        model=client.models.list().data[0].id,
         messages=messages,
         response_format={
             "type":
